@@ -1,16 +1,53 @@
-import numpy as np
+X = [1, 2, 3, 4, 5]
+Y = [2, 4, 5, 4, 5]
 
-X = np.array([1, 2, 3, 4, 5])
-Y = np.array([2, 4, 5, 4, 5])
+n = len(X)
 
-m1 = np.sum(X * Y) / np.sum(X * X)
-y1 = m1 * X
-mse1 = np.mean((Y - y1) ** 2)
+xy = xx = 0
 
-m2 = np.sum((X - X.mean()) * (Y - Y.mean())) / np.sum((X - X.mean()) ** 2)
-b2 = Y.mean() - m2 * X.mean()
-y2 = m2 * X + b2
-mse2 = np.mean((Y - y2) ** 2)
+for i in range(n):
+    xy += X[i] * Y[i]
+    xx += X[i] * X[i]
+
+m1 = xy / xx
+
+y1 = []
+mse1 = 0
+
+for i in range(n):
+    pred = m1 * X[i]
+    y1.append(pred)
+    mse1 += (Y[i] - pred) ** 2
+
+mse1 /= n
+
+sum_x = sum_y = 0
+
+for i in range(n):
+    sum_x += X[i]
+    sum_y += Y[i]
+
+mx = sum_x / n
+my = sum_y / n
+
+num = den = 0
+
+for i in range(n):
+    num += (X[i] - mx) * (Y[i] - my)
+    den += (X[i] - mx) ** 2
+
+m2 = num / den
+b2 = my - m2 * mx
+
+y2 = []
+mse2 = 0
+
+for i in range(n):
+    pred = m2 * X[i] + b2
+    y2.append(pred)
+    mse2 += (Y[i] - pred) ** 2
+
+mse2 /= n
 
 print("Without Bias")
 print("Slope:", m1)
